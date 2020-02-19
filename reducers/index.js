@@ -1,20 +1,35 @@
 // entry state in store
 
-import { RECIEVE_ENTRIES, ADD_ENTRY } from "../actions";
+import { RECIEVE_DECKS, ADD_CARD, ADD_DECK } from "../actions";
 
 // entries will be an object with the key representing a specific day with the value being the metric for specific day
-function entries(state = {}, action) {
+function decks(state = {}, action) {
 	switch (action.type) {
-		case RECIEVE_ENTRIES:
+		case RECIEVE_DECKS:
 			return {
 				...state,
-				...action.entries
+				...action.decks
 			};
 
-		case ADD_ENTRY:
+		case ADD_CARD:
+			const { title, card } = action;
 			return {
 				...state,
-				...action.entry
+				[title]: {
+					...state[title],
+					questions: [
+						...state[title].questions,
+						{ ...card }
+					]
+				}
+			};
+		case ADD_DECK:
+			return {
+				...state,
+				[action.title]: {
+					title: action.title,
+					questions: []
+				}
 			};
 
 		default:
@@ -22,4 +37,4 @@ function entries(state = {}, action) {
 	}
 }
 
-export default entries;
+export default decks;

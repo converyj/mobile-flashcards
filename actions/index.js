@@ -4,21 +4,38 @@ Two Actions:
  2. add entry 
 */
 
-export const RECIEVE_ENTRIES = "RECIEVE_ENTRIES";
-export const ADD_ENTRY = "ADD_ENTRY";
+export const RECIEVE_DECKS = "RECIEVE_DECKS";
+export const ADD_CARD = "ADD_CARD";
+export const ADD_DECK = "ADD_DECK";
+export const REMOVE_DECK = "REMOVE_DECK";
 
-// recieve all entries from storage and add to store
-export function recieveEntries(entries) {
+// recieve all decks from storage and add to store
+export function recieveDecks(decks) {
 	return {
-		type: RECIEVE_ENTRIES,
-		entries
+		type: RECIEVE_DECKS,
+		decks
 	};
 }
 
 // add new entry
-export function addEntry(entry) {
+export function addDeck(title) {
 	return {
-		type: ADD_ENTRY,
-		entry
+		type: ADD_DECK,
+		title
+	};
+}
+
+export function addCardToDeck(title, card) {
+	return {
+		type: ADD_CARD,
+		title,
+		card
+	};
+}
+
+export function removeDeck(title) {
+	return {
+		type: REMOVE_DECK,
+		title
 	};
 }
