@@ -9,6 +9,10 @@ const decks = {
 			{
 				question: "Where do you make Ajax requests in React?",
 				answer: "The componentDidMount lifecycle event"
+			}, 
+			{
+				question: "Where do you make Ajax requests in React?",
+				answer: "The componentDidMount lifecycle event"
 			}
 		]
 	},

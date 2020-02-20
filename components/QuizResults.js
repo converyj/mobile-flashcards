@@ -12,9 +12,9 @@ class QuizResult extends Component {
 		const { bounceValue } = this.state;
 
 		Animated.sequence([
-			Animated.timing(bounceValue, { duration: 500, toValue: 1.04 }),
+			Animated.timing(bounceValue, { duration: 1000, toValue: 1.04 }),
 			Animated.spring(bounceValue, { toValue: 1, friction: 4 })
-		]);
+		]).start();
 	}
 
 	render() {
@@ -50,8 +50,11 @@ class QuizResult extends Component {
 				</View>
 				<View>
 					<TouchButton onPress={this.props.restart}>Restart Quiz</TouchButton>
-					<TouchButton btnStyle={{ backgroundColor: gray }}>Back to Deck</TouchButton>
-					<TouchButton btnStyle={{ backgroundColor: gray }}>Home</TouchButton>
+					<TouchButton
+						onPress={() => this.props.navigation.navigate("DeckDetails")}
+						btnStyle={{ backgroundColor: gray }}>
+						Back to Deck
+					</TouchButton>
 				</View>
 			</View>
 		);

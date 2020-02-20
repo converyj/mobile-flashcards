@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, FlatList, AsyncStorage } from "react-native";
 import { handleInitialData } from "./../utils/helpers";
 import Deck from "./Deck";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { getDecks } from "../utils/api";
 const DECKS_STORAGE_KEY = "MOBILE_FLASHCARDS:deck";
 
 /**
@@ -20,23 +21,30 @@ class DeckList extends Component {
 	// };
 
 	componentDidMount() {
-		console.log("decklist");
-		this.props.dispatch(handleInitialData());
+		//Here is the Trick
+		const { navigation } = this.props;
+		//Adding an event listner om focus
+		//So whenever the screen will have focus it will set the state to zero
+		this.focusListener = navigation.addListener("didFocus", () => {
+			console.log("Focus");
+			this.props.dispatch(handleInitialData());
+		});
 		// AsyncStorage.removeItem(DECKS_STORAGE_KEY);
 	}
 
-	componentDidUpdate() {
-		console.log("decklist UPDATE");
-		// this.props.dispatch(handleInitialData());
-		// AsyncStorage.removeItem(DECKS_STORAGE_KEY);
-	}
+	// shouldComponentUpdate(prevProps) {
+	// 	console.log("decklist UPDATE");
+	// 	return prevProps.decks !== getDecks()
+	// 	// this.props.dispatch(handleInitialData());
+	// 	// AsyncStorage.removeItem(DECKS_STORAGE_KEY);
+	// }
 
 	render() {
 		const { deckList } = this.props;
-		console.log(deckList);
+		console.log(this.props.decks);
 		if (!deckList || deckList.length === 0) {
 			return (
-				<View style={styles.container}>
+				<View style={styles.noDeck}>
 					<Text>There are no decks available</Text>
 				</View>
 			);
@@ -65,6 +73,15 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignContent: "center"
+	},
+	noDeck: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 30,
+		marginLeft: 30,
+		textAlign: "center",
+		fontSize: 22
 	}
 });
 
@@ -78,7 +95,8 @@ const mapStateToProps = (decks) => {
 		title: decks[deckId].title
 	}));
 	return {
-		deckList
+		deckList,
+		decks
 	};
 };
 export default connect(mapStateToProps)(DeckList);

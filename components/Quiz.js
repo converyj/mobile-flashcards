@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { white, gray, green, red } from "../utils/colors";
 import TouchButton from "./TouchButton";
 import QuizResults from "./QuizResults";
-import ViewPager from "@react-native-community/viewpager";
+import ViewPagerAndroid from "@react-native-community/viewpager";
 
 /**
  * Show quiz of chosen dec 
@@ -67,16 +67,8 @@ class Quiz extends Component {
 
 		this.setState((prevState) => ({ currentQuestion: prevState.currentQuestion + 1 }));
 		// console.log(this.state.answered);
-		this.setState((prevState) => ({
-			answered: [
-				...prevState.answered,
-				page
-			]
-		}));
 
-		console.log(this.state.answered);
-
-		// this.viewPager.setPage(page + 1);
+		this.viewPager.setCurrentItem(this.viewPager.getCurrentItem() + 1);
 	};
 
 	restart = () => {
@@ -89,7 +81,7 @@ class Quiz extends Component {
 			answered: []
 		});
 
-		this.props.navigation.navigate("DeckDetails");
+		this.props.navigation.navigate("Quiz");
 	};
 	render() {
 		const { questions } = this.props.deck;
@@ -120,12 +112,10 @@ class Quiz extends Component {
 		}
 
 		return (
-			// <ViewPager
-			// 	scrollEnabled={true}
-			// 	ref={(viewPager) => {
-			// 		this.viewPager = viewPager;
-			// 	}}>
-			<Fragment>
+			<ViewPager
+				ref={(viewPager) => {
+					this.viewPager = viewPager;
+				}}>
 				{questions.map(
 					(question, index) =>
 						currentQuestion === index + 1 && (
@@ -164,7 +154,7 @@ class Quiz extends Component {
 							</View>
 						)
 				)}
-			</Fragment>
+			</ViewPager>
 		);
 	}
 }
@@ -196,7 +186,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		marginRight: 30,
-		marginLeft: 30
+		marginLeft: 30,
+		textAlign: "center",
+		fontSize: 22
 	}
 });
 

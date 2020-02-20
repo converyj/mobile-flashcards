@@ -32,10 +32,19 @@ class DeckDetails extends Component {
 		};
 	};
 
-	shouldComponentUpdate(nextProps) {
-		return nextProps.deck !== undefined;
-	}
+	// shouldComponentUpdate(nextProps) {
+	// 	return nextProps.deck !== undefined;
+	// }
 
+	removeDeck = (title) => {
+		removeDeck(title);
+		this.props.navigation.navigate("DeckList");
+	};
+
+	// go back from DeckDetails
+	toHome = () => {
+		this.props.navigation.dispatch(NavigationActions.back({ key: "DeckDetails" }));
+	};
 	render() {
 		const { deck, title, navigation } = this.props;
 
@@ -54,8 +63,7 @@ class DeckDetails extends Component {
 					<TouchButton
 						btnStyle={{ backgroundColor: red }}
 						onPress={() => {
-							removeDeck(title);
-							navigation.goBack();
+							this.removeDeck(title);
 						}}>
 						<Text>Delete Deck</Text>
 					</TouchButton>
