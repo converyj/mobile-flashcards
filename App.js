@@ -9,7 +9,7 @@ import { setLocalNotification } from "./utils/notifications";
 import Constants from "expo-constants";
 import { purple } from "./utils/colors";
 
-function UdaciStatusBar({ backgroundColor, ...props }) {
+function FlashStatusBar({ backgroundColor, ...props }) {
 	return (
 		<View style={{ backgroundColor, height: Constants.statusBarHeight }}>
 			<StatusBar translucent backgroundColor={backgroundColor} {...props} />
@@ -19,13 +19,14 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 
 export default class App extends React.Component {
 	componentDidMount() {
+		// set notification if user hasn't studied that day
 		setLocalNotification();
 	}
 	render() {
 		return (
 			<Provider store={createStore(reducer, middleware)}>
 				<View style={{ flex: 1 }}>
-					<UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
+					<FlashStatusBar backgroundColor={purple} barStyle="light-content" />
 					<Stack />
 				</View>
 			</Provider>

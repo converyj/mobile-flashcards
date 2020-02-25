@@ -28,11 +28,10 @@ const tabObject = {
 		}
 	}
 };
-// usually one object with tabs
 const options = {
 	navigationOptions: {
 		// get rid of any headers
-		headers: null
+		headerShown: false
 	},
 	// style tabBar
 	tabBarOptions: {

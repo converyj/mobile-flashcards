@@ -2,28 +2,39 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
 import { purple, green, gray, red, white } from "./../utils/colors";
 import TouchButton from "./TouchButton";
+import { clearAllNotifications, setLocalNotification } from "./../utils/notifications";
 
+/**
+ * Display results of the quiz 
+ * - score is displayed by the number of question correct and a percentage 
+ * - buttons are displayed to start the quiz over or go back to the deck 
+ */
 class QuizResult extends Component {
 	state = {
-		bounceValue: new Animated.Value(1)
+		bounceValue: new Animated.Value(0)
 	};
 
+	// animate the score percentage
 	componentDidMount() {
+		// remove notification since they have completed at least one quiz for the day and set new one for next day
+		clearAllNotifications().then(() => setLocalNotification);
+
 		const { bounceValue } = this.state;
 
 		Animated.sequence([
-			Animated.timing(bounceValue, { duration: 500, toValue: 1.04 }),
+			Animated.timing(bounceValue, { duration: 600, toValue: 1.04 }),
 			Animated.spring(bounceValue, { toValue: 1, friction: 4 })
-		]);
+		]).start();
 	}
 
 	render() {
 		const { totalQuestions, correctAnswers } = this.props;
 		const { bounceValue } = this.state;
 
+		// calculate percentage and style accordingly
 		const percent = (correctAnswers / totalQuestions * 100).toFixed(0);
-		console.log(correctAnswers, totalQuestions);
 		const btnStyle = percent > 50 ? green : red;
+
 		return (
 			<View style={styles.pageStyle}>
 				<View>
@@ -61,9 +72,7 @@ class QuizResult extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// margin: 10,
 		justifyContent: "space-between"
-		// alignItems: "center"
 	},
 	center: {
 		flex: 1,

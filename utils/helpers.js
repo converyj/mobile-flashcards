@@ -1,3 +1,5 @@
+// Asynchronous Actions
+
 import { getDecks, saveCardToDeck, saveDeckTitle, removeDeckAS, getDeck } from "./api";
 import { recieveDecks, addCardToDeck, addDeck, removeDeck } from "./../actions";
 import { showLoading, hideLoading } from "react-redux-loading";
@@ -18,7 +20,7 @@ export function handleAddCardToDeck(title, card) {
 		dispatch(showLoading());
 		return saveCardToDeck(title, card)
 			.then(() => {
-				dispatch(addCardToDeck(title));
+				dispatch(addCardToDeck(title, card));
 			})
 			.then(() => dispatch(hideLoading()));
 	};

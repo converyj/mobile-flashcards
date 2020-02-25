@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { Text, KeyboardAvoidingView, TextInput, StyleSheet, ActivityIndicator } from "react-native";
+import { Text, KeyboardAvoidingView, TextInput, StyleSheet } from "react-native";
 import TouchButton from "./TouchButton";
-import { addCardToDeck } from "../actions";
 import { connect } from "react-redux";
-import { saveCardToDeck } from "../utils/api";
 import { PropTypes } from "prop-types";
 import { handleAddDeckTitle } from "../utils/helpers";
 
@@ -14,20 +12,22 @@ import { handleAddDeckTitle } from "../utils/helpers";
  */
 class AddDeck extends Component {
 	static propTypes = {
-		navigation: PropTypes.object.isRequired
+		navigation: PropTypes.object.isRequired,
+		handleAddDeckTitle: PropTypes.func
 	};
 
 	state = {
 		title: ""
 	};
 
-	componentDidUpdate(prevProps) {
-		console.log(prevProps.loadingBar.default);
-		if (prevProps.loadingBar.default !== 0) {
-			console.log("updated (not 0)", prevProps.loadingBar.default);
-			this.props.navigation.goBack();
-		}
-	}
+	// componentDidUpdate(prevProps) {
+	// 	console.log(prevProps.loadingBar.default);
+	// 	if (prevProps.loadingBar.default !== 0) {
+	// 		console.log("updated (not 0)", prevProps.loadingBar.default);
+	// 		this.props.navigation.goBack();
+	// 		console.log("updated (not 0)", prevProps.loadingBar.default);
+	// 	}
+	// }
 
 	handleDeckText = (title) => {
 		this.setState({
@@ -35,40 +35,37 @@ class AddDeck extends Component {
 		});
 	};
 
+	// add deck to store and api
 	addDeck = () => {
 		const { navigation, loadingBar } = this.props;
 		const { title } = this.state;
 
-		console.log(loadingBar);
-
-		this.props.dispatch(handleAddDeckTitle(title));
+		this.props.handleAddDeckTitle(title);
 
 		this.setState({ title: "" });
-		// navigation.goBack();
+		navigation.goBack();
 	};
-	toHome = () => {
-		this.props.navigation.dispatch(NavigationActions.back({ key: "Home" }));
-	};
+
 	render() {
 		const { title } = this.state;
-		console.log(title);
 		const { loadingBar } = this.props;
 
 		return (
 			<Fragment>
-				{loadingBar.default === 1 ? (
+				{/* {loadingBar.default === 1 ? (
 					<ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />
-				) : (
-					<KeyboardAvoidingView style={styles.container}>
-						<TextInput
-							style={styles.input}
-							placeholder="Deck Title"
-							value={this.state.title}
-							onChangeText={this.handleDeckText}
-						/>
-						<TouchButton onPress={this.addDeck}>Submit</TouchButton>
-					</KeyboardAvoidingView>
-				)}
+				) : ( */}
+				<KeyboardAvoidingView style={styles.container}>
+					<Text>Add a New Deck</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="Deck Title"
+						value={this.state.title}
+						onChangeText={this.handleDeckText}
+					/>
+					<TouchButton onPress={this.addDeck}>Create Deck</TouchButton>
+				</KeyboardAvoidingView>
+				{/* )} */}
 			</Fragment>
 		);
 	}
@@ -93,11 +90,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-// decks is not being used? - which is better to get title from navigation twice or put it in props?
-function mapStateToProps({ loadingBar }, { navigation }) {
-	// const { title } = navigation.state.params;
-	return {
-		loadingBar
-	};
-}
-export default connect(mapStateToProps)(AddDeck);
+export default connect(null, { handleAddDeckTitle })(AddDeck);

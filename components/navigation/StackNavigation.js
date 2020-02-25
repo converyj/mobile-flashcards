@@ -20,6 +20,8 @@ const Stack = createAppContainer(
 			screen: DeckDetails,
 			navigationOptions: {
 				headerTintColor: white,
+				headerBackTitleVisible: false,
+
 				headerStyle: {
 					backgroundColor: purple
 				}

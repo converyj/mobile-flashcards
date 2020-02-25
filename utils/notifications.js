@@ -5,6 +5,10 @@ import * as Permissions from "expo-permissions";
 
 const NOTIFICATION_KEY = "MOBILE_FLASHCARDS:notification";
 
+/**
+ * Set local notification at a particular time to remind user to study for the day 
+ */
+
 // remove all notifications
 export function clearAllNotifications() {
 	return AsyncStorage.removeItem(NOTIFICATION_KEY).then(() => {
@@ -19,9 +23,11 @@ export function setLocalNotification() {
 		// if no notifications are set, ask for permission
 		if (data === null) {
 			Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+				console.log(status);
 				if (status === "granted") {
 					Notifications.cancelAllScheduledNotificationsAsync;
 
+					// set notification for 8PM
 					let tomorrow = new Date();
 					tomorrow.setDate(tomorrow.getDate() + 1);
 					tomorrow.setHours(20);

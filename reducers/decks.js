@@ -1,8 +1,7 @@
-// entry state in store
+// deck state in store
 
 import { RECIEVE_DECKS, ADD_CARD, ADD_DECK, REMOVE_DECK } from "../actions";
 
-// entries will be an object with the key representing a specific day with the value being the metric for specific day
 function decks(state = {}, action) {
 	switch (action.type) {
 		case RECIEVE_DECKS:
@@ -33,12 +32,26 @@ function decks(state = {}, action) {
 			};
 		case REMOVE_DECK:
 			console.log(action.title);
-			return Object.keys(state)
-				.filter((deck) => deck.title === action.title)
-				.reduce((results, currentValue) => {
-					results[currentValue] = state[currentValue];
-					return results;
-				}, {});
+			return Object.assign(
+				{},
+				...Object.entries(state)
+					.filter(
+						(
+							[
+								deck
+							]
+						) => deck !== action.title
+					)
+					.map(([ deck, value
+					]) => ({ [deck]: value }))
+			);
+		// return Object.keys(state)
+		// 	.filter((deck) => deck.title !== action.title)
+		// 	.reduce((results, currentValue) => {
+		// 		results[currentValue] = state[currentValue];
+		// 		console.log("results ", results);
+		// 		return results;
+		// 	}, {});
 
 		default:
 			return state;

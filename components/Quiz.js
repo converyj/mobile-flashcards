@@ -12,10 +12,17 @@ const answer = {
 	INCORRECT: "incorrect"
 };
 
+/**
+ * Displays chosen deck questions 
+ * - allow user to toggle between the question and answer 
+ * - show buttons to allow user to mark their guess as 'Correct' or 'Incorrect'
+ * - display number of questions remaining
+ */
 export class Quiz extends Component {
 	static propTypes = {
-		navigation: PropTypes.object.isRequired
-		// deck: PropTypes.object.isRequired
+		navigation: PropTypes.object.isRequired,
+		title: PropTypes.string,
+		deck: PropTypes.object.isRequired
 	};
 
 	// show title of deck on the header of navigation
@@ -29,15 +36,20 @@ export class Quiz extends Component {
 	};
 
 	state = {
-		correct: 0,
-		incorrect: 0,
-		flipped: [],
+		correct: 0, // number of correct answers
+		incorrect: 0, // number of incorrect answers
+		flipped: [], // toggle between 'show answer' and 'show question'
 		questionCount: this.props.deck.questions.length
 	};
 
+	/**
+	 * when user presses the 'show answer' and 'show question'
+	 * id - index of question 
+	 */
 	handleFlip = (id) => {
 		const { flipped } = this.state;
 
+		// add or remove card index from flipped array to toggle card view
 		if (flipped.includes(id)) {
 			this.setState({
 				flipped: flipped.filter((cardId) => cardId !== id)
@@ -53,6 +65,11 @@ export class Quiz extends Component {
 		}
 	};
 
+	/**
+	 * when user presses the 'correct' or incorrect buttons
+	 * response - incorrect or correct constants 
+	 * page - index of question 
+	 */
 	handleAnswer = (response, page) => {
 		if (response === answer.CORRECT) {
 			console.log("correct");
@@ -64,15 +81,17 @@ export class Quiz extends Component {
 			this.setState((prevState) => ({ incorrect: prevState.incorrect + 1 }));
 		}
 
+		// increment the viewPager to next question/page
 		this.viewPager.setPage(page + 1);
 	};
 
+	// restart quiz
 	handleRestart = () => {
 		this.setState({
 			questionCount: this.props.deck.questions.length,
-			correct: 0, // number of correct answers of user
-			incorrect: 0, // number of incorrect answers of user
-			flipped: [] // toggle between answer and question
+			correct: 0,
+			incorrect: 0,
+			flipped: []
 		});
 
 		this.props.navigation.navigate("Quiz");
@@ -81,6 +100,7 @@ export class Quiz extends Component {
 		const { questions } = this.props.deck;
 		const { questionCount, flipped, correct, incorrect } = this.state;
 
+		// no questions
 		if (!questions || questions.length === 0) {
 			return (
 				<View style={styles.noQuestions}>
@@ -91,6 +111,7 @@ export class Quiz extends Component {
 			);
 		}
 
+		// all the questions in quiz are answered
 		if (questions.length === correct + incorrect) {
 			return (
 				<QuizResults
@@ -103,6 +124,7 @@ export class Quiz extends Component {
 			);
 		}
 
+		// display one quiz question at a time with viewPager
 		return (
 			<ViewPager
 				style={styles.container}
@@ -119,7 +141,7 @@ export class Quiz extends Component {
 						</View>
 						<View style={styles.questionContainer}>
 							<Text style={styles.questionText}>
-								{flipped.includes(idx) ? "Question" : "Answer"}
+								{flipped.includes(idx) ? "Answer" : "Question"}
 							</Text>
 
 							<View style={styles.questionWrapper}>
@@ -194,6 +216,9 @@ const styles = StyleSheet.create({
 	}
 });
 
+/**
+ * get the deck to display its questions from the title passed in 
+ */
 const mapStateToProps = ({ decks }, { navigation }) => {
 	const { title } = navigation.state.params;
 	const deck = decks[title];

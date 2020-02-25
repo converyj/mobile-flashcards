@@ -50,8 +50,9 @@ export function saveCardToDeck(title, card) {
 				JSON.stringify({
 					[title]: {
 						questions: [
-							...deck.questions
-						].concat(card)
+							...deck.questions,
+							{ ...card }
+						]
 					}
 				})
 			);

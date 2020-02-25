@@ -26,6 +26,7 @@ export function addDeck(title) {
 }
 
 export function addCardToDeck(title, card) {
+	console.log(card);
 	return {
 		type: ADD_CARD,
 		title,

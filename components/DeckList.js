@@ -5,8 +5,7 @@ import { View, Text, StyleSheet, FlatList, AsyncStorage, ActivityIndicator } fro
 import { handleInitialData } from "./../utils/helpers";
 import Deck from "./Deck";
 import { TouchableOpacity } from "react-native-gesture-handler";
-const DECKS_STORAGE_KEY = "MOBILE_FLASHCARDS:deck";
-import LoadingBar from "react-redux-loading";
+import { AppLoading } from "expo";
 
 /**
  * Deck Dashboard: 
@@ -14,11 +13,12 @@ import LoadingBar from "react-redux-loading";
  *  - navigate to DeckDetails on press 
  */
 class DeckList extends Component {
-	// static propTypes = {
-	// 	navigation: PropTypes.object.isRequired,
-	// 	deckList: PropTypes.array.isRequired,
-	// 	handleInitialData: PropTypes.func.isRequired
-	// };
+	static propTypes = {
+		navigation: PropTypes.object.isRequired,
+		deckList: PropTypes.array,
+		handleInitialData: PropTypes.func,
+		loadingBar: PropTypes.object
+	};
 
 	state = {
 		ready: false
@@ -26,13 +26,13 @@ class DeckList extends Component {
 
 	componentDidMount() {
 		// console.log("decklist");
-		this.props.dispatch(handleInitialData()).then(() => this.setState({ ready: true }));
-		// AsyncStorage.removeItem(DECKS_STORAGE_KEY);
+		this.props.handleInitialData().then(() => this.setState({ ready: true }));
 	}
 
+	// // deckList was updated and is still loading from actions, display loading indicator
 	// componentDidUpdate(prevProps) {
 	// 	console.log("decklist UPDATE");
-	// 	if (prevProps.loadingBar.default !== 0) {
+	// 	if (prevProps.loadingBar.default !== 0) { // previous
 	// 		console.log("loadng");
 	// 		return <ActivityIndicator />;
 	// 	}
@@ -47,14 +47,16 @@ class DeckList extends Component {
 	render() {
 		console.log(this.state.ready);
 
-		// TODO: check ready on initial load and loadingBar status on sequencial loads
+		// display splash screen if app hasn't finished loading initial data
 		if (this.state.ready === false) {
 			console.log("loading ready");
-			return <ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />;
+			return <AppLoading />;
 		}
 		// console.log(this.state.ready);
 		const { deckList, loadingBar } = this.props;
 		console.log(deckList);
+
+		// no decks
 		if (!deckList || deckList.length === 0) {
 			return (
 				<View style={styles.noDeck}>
@@ -65,20 +67,23 @@ class DeckList extends Component {
 		return (
 			<View style={styles.container}>
 				{/* show loading indicator when still loading UI */}
-
-				<FlatList
-					data={deckList}
-					keyExtractor={(item) => item.deckId}
-					renderItem={({ item }) => (
-						<TouchableOpacity
-							onPress={() =>
-								this.props.navigation.navigate("DeckDetails", {
-									title: item.title
-								})}>
-							<Deck title={item.title} questionCount={item.questionCount} />
-						</TouchableOpacity>
-					)}
-				/>
+				{loadingBar.default === 1 ? (
+					<ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />
+				) : (
+					<FlatList
+						data={deckList}
+						keyExtractor={(item) => item.deckId}
+						renderItem={({ item }) => (
+							<TouchableOpacity
+								onPress={() =>
+									this.props.navigation.navigate("DeckDetails", {
+										title: item.title
+									})}>
+								<Deck title={item.title} questionCount={item.questionCount} />
+							</TouchableOpacity>
+						)}
+					/>
+				)}
 			</View>
 		);
 	}
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Array with deck information why not same as leaderboard array?
+ * Array with deck information - why not same as leaderboard array?
  */
 const mapStateToProps = ({ decks, loadingBar }) => {
 	console.log(loadingBar);
@@ -113,4 +118,4 @@ const mapStateToProps = ({ decks, loadingBar }) => {
 		loadingBar
 	};
 };
-export default connect(mapStateToProps)(DeckList);
+export default connect(mapStateToProps, { handleInitialData })(DeckList);

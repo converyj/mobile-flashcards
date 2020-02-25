@@ -1,21 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { white, gray } from "./../utils/colors";
+import { PropTypes } from "prop-types";
 
-// could be function
-class Deck extends Component {
-	render() {
-		const { title, questionCount } = this.props;
-		return (
-			<View style={styles.card}>
-				<Text style={{ fontSize: 22 }}>{title}</Text>
-				<Text style={{ fontSize: 18, color: gray }}>
-					{questionCount} {questionCount === 1 ? "card" : "cards"}
-				</Text>
-			</View>
-		);
-	}
-}
+// display deck title and questionCount
+const Deck = ({ title, questionCount }) => {
+	return (
+		<View style={styles.card}>
+			<Text style={{ fontSize: 22 }}>{title}</Text>
+			<Text style={{ fontSize: 18, color: gray }}>
+				{questionCount} {questionCount === 1 ? "card" : "cards"}
+			</Text>
+		</View>
+	);
+};
 
 const styles = StyleSheet.create({
 	card: {
@@ -35,5 +33,10 @@ const styles = StyleSheet.create({
 		}
 	}
 });
+
+Deck.propTypes = {
+	title: PropTypes.string.isRequired,
+	questionCount: PropTypes.number.isRequired
+};
 
 export default Deck;
