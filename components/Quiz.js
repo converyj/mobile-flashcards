@@ -1,27 +1,21 @@
-import React, { Component, Fragment } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import { white, gray, green, red } from "../utils/colors";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import TouchButton from "./TouchButton";
 import QuizResults from "./QuizResults";
+import { gray, green, red, textGray, darkGray, white } from "../utils/colors";
+import { connect } from "react-redux";
 import ViewPager from "@react-native-community/viewpager";
 
-/**
- * Show quiz of chosen dec 
- *  - displays a card question
- *  - an option to view the answer (flips the card)
- *  - a “Correct” button
- *  - an “Incorrect” button 
- *  - the number of cards left in the quiz
- */
-class Quiz extends Component {
-	state = {
-		totalQuestions: 0, // total questions in deck
-		correct: 0, // number of correct answers of user
-		incorrect: 0, // number of incorrect answers of user
-		flipped: [], // toggle between answer and question
-		currentQuestion: 1, // only show one question at a time
-		answered: []
+const answer = {
+	CORRECT: "correct",
+	INCORRECT: "incorrect"
+};
+
+export class Quiz extends Component {
+	static propTypes = {
+		navigation: PropTypes.object.isRequired
+		// deck: PropTypes.object.isRequired
 	};
 
 	// show title of deck on the header of navigation
@@ -32,6 +26,13 @@ class Quiz extends Component {
 			title: `${title} Quiz`,
 			headerBackTitleVisible: false
 		};
+	};
+
+	state = {
+		correct: 0,
+		incorrect: 0,
+		flipped: [],
+		questionCount: this.props.deck.questions.length
 	};
 
 	handleFlip = (id) => {
@@ -52,53 +53,38 @@ class Quiz extends Component {
 		}
 	};
 
-	/**
-	 * Change correct or incorrect state 
-	 * Increment the currentQuestion 
-	 */
-	handleAnswer = (page, answer) => {
-		const { questions } = this.props.deck;
-		const { correct, incorrect } = this.state;
-		console.log(page);
-		answer
-			? this.setState((prevState) => ({ correct: prevState.correct + 1 }))
-			: this.setState((prevState) => ({ incorrect: prevState.incorrect + 1 }));
-		// console.log(correct, incorrect);
+	handleAnswer = (response, page) => {
+		if (response === answer.CORRECT) {
+			console.log("correct");
+			this.setState((prevState) => ({ correct: prevState.correct + 1 }));
+		}
+		else {
+			console.log("incorrect");
 
-		this.setState((prevState) => ({ currentQuestion: prevState.currentQuestion + 1 }));
-		// console.log(this.state.answered);
-		this.setState((prevState) => ({
-			answered: [
-				...prevState.answered,
-				page
-			]
-		}));
+			this.setState((prevState) => ({ incorrect: prevState.incorrect + 1 }));
+		}
 
-		console.log(this.state.answered);
-
-		// this.viewPager.setPage(page + 1);
+		this.viewPager.setPage(page + 1);
 	};
 
-	restart = () => {
+	handleRestart = () => {
 		this.setState({
-			totalQuestions: 0, // total questions in deck
+			questionCount: this.props.deck.questions.length,
 			correct: 0, // number of correct answers of user
 			incorrect: 0, // number of incorrect answers of user
-			flipped: [], // toggle between answer and question
-			currentQuestion: 1, // only show one question at a time
-			answered: []
+			flipped: [] // toggle between answer and question
 		});
 
-		this.props.navigation.navigate("DeckDetails");
+		this.props.navigation.navigate("Quiz");
 	};
 	render() {
 		const { questions } = this.props.deck;
-		const { flipped, currentQuestion, correct, incorrect } = this.state;
+		const { questionCount, flipped, correct, incorrect } = this.state;
 
 		if (!questions || questions.length === 0) {
 			return (
 				<View style={styles.noQuestions}>
-					<Text>
+					<Text style={{ fontSize: 22 }}>
 						Sorry, you can't take this quiz because there are no cards in the deck.
 					</Text>
 				</View>
@@ -106,110 +92,115 @@ class Quiz extends Component {
 		}
 
 		if (questions.length === correct + incorrect) {
-			console.log("results");
-
 			return (
 				<QuizResults
-					totalQuestions={questions.length}
+					totalQuestions={questionCount}
 					correctAnswers={correct}
 					incorrectAnswers={incorrect}
 					navigation={this.props.navigation}
-					restart={this.restart}
+					restart={this.handleRestart}
 				/>
 			);
 		}
 
 		return (
-			// <ViewPager
-			// 	scrollEnabled={true}
-			// 	ref={(viewPager) => {
-			// 		this.viewPager = viewPager;
-			// 	}}>
-			<Fragment>
-				{questions.map(
-					(question, index) =>
-						currentQuestion === index + 1 && (
-							<View style={styles.container} key={index}>
-								<Text style={{ fontSize: 22 }}>
-									{index + 1} / {questions.length}
+			<ViewPager
+				style={styles.container}
+				scrollEnabled={false}
+				ref={(viewPager) => {
+					this.viewPager = viewPager;
+				}}>
+				{questions.map((question, idx) => (
+					<View style={styles.pageStyle} key={idx}>
+						<View>
+							<Text style={styles.count}>
+								{idx + 1} / {questions.length}
+							</Text>
+						</View>
+						<View style={styles.questionContainer}>
+							<Text style={styles.questionText}>
+								{flipped.includes(idx) ? "Question" : "Answer"}
+							</Text>
+
+							<View style={styles.questionWrapper}>
+								<Text style={styles.title}>
+									{flipped.includes(idx) ? question.answer : question.question}
 								</Text>
-
-								<View style={styles.card}>
-									<Text style={{ textAlign: "center", fontSize: 22 }}>
-										{flipped.includes(index) ? (
-											question.answer
-										) : (
-											question.question
-										)}
-									</Text>
-								</View>
-
-								<TouchableOpacity onPress={() => this.handleFlip(index)}>
-									<Text style={{ color: red, textAlign: "center", fontSize: 22 }}>
-										{flipped.includes(index) ? "Question" : "Answer"}
-									</Text>
-								</TouchableOpacity>
-
-								<TouchButton
-									btnStyle={{ backgroundColor: green }}
-									onPress={() => this.handleAnswer(index, true)}
-									disabled={this.state[index] === 1}>
-									Correct
-								</TouchButton>
-								<TouchButton
-									btnStyle={{ backgroundColor: red }}
-									onPress={() => this.handleAnswer(index, false)}>
-									Incorrect
-								</TouchButton>
 							</View>
-						)
-				)}
-			</Fragment>
+						</View>
+						<TouchableOpacity onPress={() => this.handleFlip(idx)}>
+							<Text style={{ color: red, textAlign: "center", fontSize: 22 }}>
+								{flipped.includes(idx) ? "Show Question" : "Show Answer"}
+							</Text>
+						</TouchableOpacity>
+						<View>
+							<TouchButton
+								btnStyle={{ backgroundColor: green, borderColor: white }}
+								onPress={() => this.handleAnswer(answer.CORRECT, idx)}>
+								Correct
+							</TouchButton>
+							<TouchButton
+								btnStyle={{ backgroundColor: red, borderColor: white }}
+								onPress={() => this.handleAnswer(answer.INCORRECT, idx)}>
+								Incorrect
+							</TouchButton>
+						</View>
+					</View>
+				))}
+			</ViewPager>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		// flex: 1
-		padding: 20,
-		justifyContent: "space-between",
-		alignItems: "center"
+		flex: 1
 	},
-	card: {
-		width: 400,
-		height: 200,
-		margin: 10,
-		padding: 10,
-		borderRadius: 10,
-		backgroundColor: white,
-		justifyContent: "center",
-		alignItems: "center",
-		shadowColor: gray,
-		shadowOffset: {
-			width: 0,
-			height: 5
-		}
-	},
-	noQuestions: {
+	pageStyle: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		marginRight: 30,
-		marginLeft: 30
+		paddingTop: 16,
+		paddingLeft: 16,
+		paddingRight: 16,
+		paddingBottom: 16,
+		backgroundColor: gray,
+		justifyContent: "space-around"
+	},
+	count: {
+		fontSize: 24
+	},
+	title: {
+		fontSize: 32,
+		textAlign: "center"
+	},
+	questionContainer: {
+		borderWidth: 1,
+		borderColor: darkGray,
+		backgroundColor: white,
+		borderRadius: 5,
+		paddingTop: 20,
+		paddingBottom: 20,
+		paddingLeft: 16,
+		paddingRight: 16,
+		flexGrow: 1
+	},
+	questionWrapper: {
+		flex: 1,
+		justifyContent: "center"
+	},
+	questionText: {
+		textDecorationLine: "underline",
+		textAlign: "center",
+		fontSize: 20
 	}
 });
 
-/**
- * get the deck info from the title of the deck 
- */
-function mapStateToProps(decks, { navigation }) {
+const mapStateToProps = ({ decks }, { navigation }) => {
 	const { title } = navigation.state.params;
 	const deck = decks[title];
-	console.log("Deck " + JSON.stringify(deck));
+	console.log(deck);
 	return {
 		deck
 	};
-}
+};
 
 export default connect(mapStateToProps)(Quiz);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
-import { purple, green, gray, red } from "./../utils/colors";
+import { purple, green, gray, red, white } from "./../utils/colors";
 import TouchButton from "./TouchButton";
 
 class QuizResult extends Component {
@@ -18,22 +18,19 @@ class QuizResult extends Component {
 	}
 
 	render() {
-		const { totalQuestions, correctAnswers, incorrectAnswers } = this.props;
+		const { totalQuestions, correctAnswers } = this.props;
 		const { bounceValue } = this.state;
 
-		const percent = correctAnswers / totalQuestions * 100;
+		const percent = (correctAnswers / totalQuestions * 100).toFixed(0);
+		console.log(correctAnswers, totalQuestions);
 		const btnStyle = percent > 50 ? green : red;
 		return (
-			<View style={styles.container}>
+			<View style={styles.pageStyle}>
 				<View>
 					<Text style={styles.header}>Quiz Complete!</Text>
-					{/* </View> */}
-					{/* <View> */}
 					<Text style={styles.subHeader}>
 						{correctAnswers} / {totalQuestions} correct
 					</Text>
-					{/* </View> */}
-					{/* <View> */}
 					<Animated.Text
 						style={[
 							styles.subHeader,
@@ -50,8 +47,11 @@ class QuizResult extends Component {
 				</View>
 				<View>
 					<TouchButton onPress={this.props.restart}>Restart Quiz</TouchButton>
-					<TouchButton btnStyle={{ backgroundColor: gray }}>Back to Deck</TouchButton>
-					<TouchButton btnStyle={{ backgroundColor: gray }}>Home</TouchButton>
+					<TouchButton
+						onPress={() => this.props.navigation.navigate("DeckDetails")}
+						btnStyle={{ backgroundColor: gray }}>
+						Back to Deck
+					</TouchButton>
 				</View>
 			</View>
 		);
@@ -82,6 +82,15 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginTop: 30,
 		color: purple
+	},
+	pageStyle: {
+		flex: 1,
+		paddingTop: 16,
+		paddingLeft: 16,
+		paddingRight: 16,
+		paddingBottom: 16,
+		backgroundColor: white,
+		justifyContent: "space-around"
 	}
 });
 

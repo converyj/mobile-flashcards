@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import reducer from "./reducers";
 import middleware from "./middleware";
 import { Stack } from "./components/navigation";
+import { setLocalNotification } from "./utils/notifications";
+import Constants from "expo-constants";
+import { purple } from "./utils/colors";
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
 	return (
@@ -15,11 +18,14 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 }
 
 export default class App extends React.Component {
+	componentDidMount() {
+		setLocalNotification();
+	}
 	render() {
 		return (
 			<Provider store={createStore(reducer, middleware)}>
 				<View style={{ flex: 1 }}>
-					<View style={{ padding: 20 }} />
+					<UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
 					<Stack />
 				</View>
 			</Provider>

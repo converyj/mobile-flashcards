@@ -63,7 +63,7 @@ export function saveCardToDeck(title, card) {
 
 // remove specific deck
 // - set the new storage after the deleted deck
-export function removeDeck(title) {
+export function removeDeckAS(title) {
 	return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((results) => {
 		const data = JSON.parse(results);
 		data[title] = undefined;

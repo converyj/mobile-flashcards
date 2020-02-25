@@ -7,6 +7,7 @@ import { gray, darkGray, red } from "../utils/colors";
 import { PropTypes } from "prop-types";
 import { removeDeck } from "../utils/api";
 import { NavigationActions } from "react-navigation";
+import { handleRemoveDeck } from "../utils/helpers";
 
 /**
  * Deck Details: 
@@ -20,7 +21,7 @@ class DeckDetails extends Component {
 	static propTypes = {
 		navigation: PropTypes.object.isRequired,
 		title: PropTypes.string.isRequired,
-		deck: PropTypes.object.isRequired
+		deck: PropTypes.object
 	};
 	// show title of deck on the header of navigation
 	static navigationOptions = ({ navigation }) => {
@@ -36,9 +37,12 @@ class DeckDetails extends Component {
 		return nextProps.deck !== undefined;
 	}
 
+	handleRemoveDeck = (title) => {
+		this.props.handleRemoveDeck(title).then(() => this.props.navigation.navigate("DeckList"));
+	};
 	render() {
 		const { deck, title, navigation } = this.props;
-
+		console.log(deck);
 		return (
 			<View style={styles.container}>
 				<Deck title={deck.title} questionCount={deck.questions.length} />
@@ -53,10 +57,7 @@ class DeckDetails extends Component {
 					</TouchButton>
 					<TouchButton
 						btnStyle={{ backgroundColor: red }}
-						onPress={() => {
-							removeDeck(title);
-							navigation.goBack();
-						}}>
+						onPress={() => this.handleRemoveDeck(title, deck)}>
 						<Text>Delete Deck</Text>
 					</TouchButton>
 				</View>
@@ -74,11 +75,12 @@ const styles = StyleSheet.create({
 /**
  * Get specific deck to pass to Deck Component from the title that was passed 
  */
-function mapStateToProps(decks, { navigation }) {
+function mapStateToProps({ decks }, { navigation }) {
 	const { title } = navigation.state.params;
+	console.log(decks);
 	return {
 		title,
 		deck: decks[title]
 	};
 }
-export default connect(mapStateToProps)(DeckDetails);
+export default connect(mapStateToProps, { handleRemoveDeck })(DeckDetails);

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Text, KeyboardAvoidingView, TextInput, StyleSheet } from "react-native";
+import React, { Component, Fragment } from "react";
+import { Text, KeyboardAvoidingView, TextInput, StyleSheet, ActivityIndicator } from "react-native";
 import TouchButton from "./TouchButton";
 import { addCardToDeck } from "../actions";
 import { connect } from "react-redux";
@@ -21,6 +21,14 @@ class AddDeck extends Component {
 		title: ""
 	};
 
+	componentDidUpdate(prevProps) {
+		console.log(prevProps.loadingBar.default);
+		if (prevProps.loadingBar.default !== 0) {
+			console.log("updated (not 0)", prevProps.loadingBar.default);
+			this.props.navigation.goBack();
+		}
+	}
+
 	handleDeckText = (title) => {
 		this.setState({
 			title
@@ -28,13 +36,15 @@ class AddDeck extends Component {
 	};
 
 	addDeck = () => {
-		const { navigation } = this.props;
+		const { navigation, loadingBar } = this.props;
 		const { title } = this.state;
+
+		console.log(loadingBar);
 
 		this.props.dispatch(handleAddDeckTitle(title));
 
 		this.setState({ title: "" });
-		navigation.goBack();
+		// navigation.goBack();
 	};
 	toHome = () => {
 		this.props.navigation.dispatch(NavigationActions.back({ key: "Home" }));
@@ -42,17 +52,24 @@ class AddDeck extends Component {
 	render() {
 		const { title } = this.state;
 		console.log(title);
+		const { loadingBar } = this.props;
 
 		return (
-			<KeyboardAvoidingView style={styles.container}>
-				<TextInput
-					style={styles.input}
-					placeholder="Deck Title"
-					value={this.state.title}
-					onChangeText={this.handleDeckText}
-				/>
-				<TouchButton onPress={this.addDeck}>Submit</TouchButton>
-			</KeyboardAvoidingView>
+			<Fragment>
+				{loadingBar.default === 1 ? (
+					<ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />
+				) : (
+					<KeyboardAvoidingView style={styles.container}>
+						<TextInput
+							style={styles.input}
+							placeholder="Deck Title"
+							value={this.state.title}
+							onChangeText={this.handleDeckText}
+						/>
+						<TouchButton onPress={this.addDeck}>Submit</TouchButton>
+					</KeyboardAvoidingView>
+				)}
+			</Fragment>
 		);
 	}
 }
@@ -77,10 +94,10 @@ const styles = StyleSheet.create({
 });
 
 // decks is not being used? - which is better to get title from navigation twice or put it in props?
-// function mapStateToProps(decks, { navigation }) {
-// 	const { title } = navigation.state.params;
-// 	return {
-// 		title
-// 	};
-// }
-export default connect()(AddDeck);
+function mapStateToProps({ loadingBar }, { navigation }) {
+	// const { title } = navigation.state.params;
+	return {
+		loadingBar
+	};
+}
+export default connect(mapStateToProps)(AddDeck);
