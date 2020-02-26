@@ -39,7 +39,7 @@ class DeckDetails extends Component {
 	// delete deck
 	handleRemoveDeck = (title) => {
 		this.props.handleRemoveDeck(title);
-		this.props.navigation.goBack();
+		this.props.navigation.navigate("DeckList");
 	};
 	render() {
 		const { deck, title, navigation, loadingBar } = this.props;
