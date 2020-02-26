@@ -28,5 +28,5 @@ This will open Expo Developer Tools in the browser. You can then do one of the f
 
 This project has been tested on the following platforms:
 
-- iOS 11+
-- Android 9+
+- iOS 13+ (trouble with testing on physical device, kept crashing as soon as Expo Client loaded app)
+- Android 10
