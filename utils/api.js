@@ -3,8 +3,7 @@ import { decks } from "./_DATA";
 
 const DECKS_STORAGE_KEY = "MOBILE_FLASHCARDS:deck";
 /**
- * fetch calendar from storage with formatted results 
- * why is formatCalendarResults not method with () and accepting results?
+ * get all decks 
  */
 export async function getDecks() {
 	return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((data) => {
@@ -12,24 +11,14 @@ export async function getDecks() {
 			? AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
 			: JSON.parse(data);
 	});
-	// try {
-	// 	const storeResults = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
-
-	// 	if (storeResults === null) {
-	// 		AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
-	// 	}
-
-	// 	return storeResults === null ? decks : JSON.parse(storeResults);
-	// } catch (err) {
-	// 	console.log(err);
-	// }
 }
-// submitting new entry for a specific day - key = date, entry = entire metrics
-// - merge existing value with new value of entry on calendar key
+
+// be able to get specific deck to use in saveCardToDeck method
 export function getDeck(id) {
 	return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((data) => JSON.parse(data)[id]);
 }
 
+// add new deck title
 export function saveDeckTitle(title) {
 	return AsyncStorage.mergeItem(
 		DECKS_STORAGE_KEY,
@@ -42,6 +31,7 @@ export function saveDeckTitle(title) {
 	);
 }
 
+// get decks and add card to deck title
 export function saveCardToDeck(title, card) {
 	try {
 		return getDeck(title).then((deck) => {

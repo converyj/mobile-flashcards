@@ -51,7 +51,6 @@ class AddCard extends Component {
 	};
 	render() {
 		const { title, loadingBar } = this.props;
-		console.log(this.state);
 
 		return (
 			<Fragment>

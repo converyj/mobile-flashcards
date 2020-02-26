@@ -16,7 +16,7 @@ class QuizResult extends Component {
 
 	// animate the score percentage
 	componentDidMount() {
-		// remove notification since they have completed at least one quiz for the day and set new one for next day
+		// remove notification each time user completes at least one quiz for the day and set new one for next day
 		clearAllNotifications().then(() => setLocalNotification);
 
 		const { bounceValue } = this.state;

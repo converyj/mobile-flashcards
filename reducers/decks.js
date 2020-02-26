@@ -38,20 +38,13 @@ function decks(state = {}, action) {
 					.filter(
 						(
 							[
-								deck
+								deckId
 							]
-						) => deck !== action.title
+						) => deckId !== action.title
 					)
-					.map(([ deck, value
-					]) => ({ [deck]: value }))
+					.map(([ deckId, value
+					]) => ({ [deckId]: value }))
 			);
-		// return Object.keys(state)
-		// 	.filter((deck) => deck.title !== action.title)
-		// 	.reduce((results, currentValue) => {
-		// 		results[currentValue] = state[currentValue];
-		// 		console.log("results ", results);
-		// 		return results;
-		// 	}, {});
 
 		default:
 			return state;

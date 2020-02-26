@@ -45,7 +45,7 @@ class DeckList extends Component {
 	// }
 
 	render() {
-		console.log(this.state.ready);
+		console.log("Decklist ", this.state.ready);
 
 		// display splash screen if app hasn't finished loading initial data
 		if (this.state.ready === false) {
@@ -54,7 +54,7 @@ class DeckList extends Component {
 		}
 		// console.log(this.state.ready);
 		const { deckList, loadingBar } = this.props;
-		console.log(deckList);
+		console.log("DeckList ", deckList);
 
 		// no decks
 		if (!deckList || deckList.length === 0) {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
  * Array with deck information - why not same as leaderboard array?
  */
 const mapStateToProps = ({ decks, loadingBar }) => {
-	console.log(loadingBar);
+	console.log("Decklist ", loadingBar);
 	const deckList = Object.keys(decks).map((deckId) => ({
 		deckId,
 		questionCount: decks[deckId].questions.length,

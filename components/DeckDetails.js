@@ -52,7 +52,7 @@ class DeckDetails extends Component {
 	};
 	render() {
 		const { deck, title, navigation, loadingBar } = this.props;
-		console.log(deck);
+		console.log("DeckDetails ", deck);
 		return (
 			<Fragment>
 				{loadingBar.default === 1 ? (
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
  */
 function mapStateToProps({ decks, loadingBar }, { navigation }) {
 	const { title } = navigation.state.params;
-	console.log(decks);
 	return {
 		title,
 		deck: decks[title],

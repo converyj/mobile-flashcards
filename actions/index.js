@@ -1,7 +1,9 @@
 /*
-Two Actions:
- 1. calendar view - recieve entries 
- 2. add entry 
+Deck Actions:
+ 1. recieve decks from api 
+ 2. add deck
+ 3. add question to deck 
+ 4. remove deck 
 */
 
 export const RECIEVE_DECKS = "RECIEVE_DECKS";
@@ -17,7 +19,7 @@ export function recieveDecks(decks) {
 	};
 }
 
-// add new entry
+// add new deck
 export function addDeck(title) {
 	return {
 		type: ADD_DECK,
@@ -26,7 +28,6 @@ export function addDeck(title) {
 }
 
 export function addCardToDeck(title, card) {
-	console.log(card);
 	return {
 		type: ADD_CARD,
 		title,
