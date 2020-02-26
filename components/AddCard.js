@@ -13,6 +13,7 @@ import { handleAddCardToDeck } from "../utils/helpers";
 class AddCard extends Component {
 	static propTypes = {
 		navigation: PropTypes.object.isRequired,
+		title: PropTypes.string.isRequired,
 		handleAddDeckTitle: PropTypes.func
 	};
 
@@ -33,7 +34,7 @@ class AddCard extends Component {
 		});
 	};
 
-	// add question to deck
+	// add question to deck and route to DeckList view
 	addCard = () => {
 		const { title } = this.props;
 
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-// decks is not being used? - which is better to get title from navigation twice or put it in props?
+// get the title of deck that was passed in and store it in props
 function mapStateToProps(decks, { navigation }) {
 	const { title } = navigation.state.params;
 	return {

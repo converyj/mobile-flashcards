@@ -29,16 +29,11 @@ class DeckList extends Component {
 	}
 
 	render() {
-		console.log("Decklist ", this.state.ready);
-
 		// display splash screen if app hasn't finished loading initial data
 		if (this.state.ready === false) {
-			console.log("loading ready");
 			return <AppLoading />;
 		}
-		// console.log(this.state.ready);
 		const { deckList, loadingBar } = this.props;
-		console.log("DeckList ", deckList);
 
 		// no decks
 		if (!deckList || deckList.length === 0) {
@@ -88,10 +83,9 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Array with deck information - why not same as leaderboard array?
+ * Array with deck information
  */
 const mapStateToProps = ({ decks, loadingBar }) => {
-	console.log("Decklist ", loadingBar);
 	const deckList = Object.keys(decks).map((deckId) => ({
 		deckId,
 		questionCount: decks[deckId].questions.length,

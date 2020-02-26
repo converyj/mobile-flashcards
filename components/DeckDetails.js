@@ -20,6 +20,7 @@ class DeckDetails extends Component {
 		navigation: PropTypes.object.isRequired,
 		title: PropTypes.string.isRequired,
 		deck: PropTypes.object,
+		loadingBar: PropTypes.object,
 		handleRemoveDeck: PropTypes.func
 	};
 	// show title of deck on the header of navigation
@@ -43,7 +44,6 @@ class DeckDetails extends Component {
 	};
 	render() {
 		const { deck, title, navigation, loadingBar } = this.props;
-		console.log("DeckDetails ", deck);
 		return (
 			<Fragment>
 				{loadingBar.default === 1 ? (

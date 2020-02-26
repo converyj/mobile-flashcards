@@ -26,7 +26,7 @@ class AddDeck extends Component {
 		});
 	};
 
-	// add deck to store and api
+	// add deck to store and api and route to the DeckDetails view
 	addDeck = () => {
 		const { navigation } = this.props;
 		const { title } = this.state;
@@ -34,7 +34,7 @@ class AddDeck extends Component {
 		this.props.handleAddDeckTitle(title);
 
 		this.setState({ title: "" });
-		navigation.goBack();
+		navigation.navigate("DeckDetails", { title });
 	};
 
 	render() {

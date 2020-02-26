@@ -211,6 +211,13 @@ const styles = StyleSheet.create({
 		textDecorationLine: "underline",
 		textAlign: "center",
 		fontSize: 20
+	},
+	noQuestions: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 30,
+		marginLeft: 30
 	}
 });
 
