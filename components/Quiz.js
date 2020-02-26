@@ -220,7 +220,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ decks }, { navigation }) => {
 	const { title } = navigation.state.params;
 	const deck = decks[title];
-	console.log(deck);
 	return {
 		deck
 	};
