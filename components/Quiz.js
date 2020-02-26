@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import TouchButton from "./TouchButton";
 import QuizResults from "./QuizResults";
-import { gray, green, red, textGray, darkGray, white } from "../utils/colors";
+import { gray, green, red, darkGray, white } from "../utils/colors";
 import { connect } from "react-redux";
 import ViewPager from "@react-native-community/viewpager";
 

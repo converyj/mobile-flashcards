@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Text, KeyboardAvoidingView, TextInput, StyleSheet } from "react-native";
 import TouchButton from "./TouchButton";
 import { connect } from "react-redux";

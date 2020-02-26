@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Text, KeyboardAvoidingView, TextInput, StyleSheet, ActivityIndicator } from "react-native";
 import TouchButton from "./TouchButton";
 import { connect } from "react-redux";
@@ -47,25 +47,22 @@ class AddCard extends Component {
 		const { title } = this.props;
 
 		return (
-			<Fragment>
-				<KeyboardAvoidingView style={styles.container}>
-					<Text>Add a Question to the {title} deck</Text>
-					<TextInput
-						style={styles.input}
-						placeholder="Question"
-						value={this.state.question}
-						onChangeText={this.handleQuestionText}
-					/>
-					<TextInput
-						style={styles.input}
-						placeholder="Answer"
-						value={this.state.answer}
-						onChangeText={this.handleAnswerText}
-					/>
-					<TouchButton onPress={this.addCard}>Add Card</TouchButton>
-				</KeyboardAvoidingView>
-				{/* )} */}
-			</Fragment>
+			<KeyboardAvoidingView style={styles.container}>
+				<Text>Add a Question to the {title} deck</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Question"
+					value={this.state.question}
+					onChangeText={this.handleQuestionText}
+				/>
+				<TextInput
+					style={styles.input}
+					placeholder="Answer"
+					value={this.state.answer}
+					onChangeText={this.handleAnswerText}
+				/>
+				<TouchButton onPress={this.addCard}>Add Card</TouchButton>
+			</KeyboardAvoidingView>
 		);
 	}
 }
