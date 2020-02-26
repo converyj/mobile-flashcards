@@ -20,15 +20,6 @@ class AddDeck extends Component {
 		title: ""
 	};
 
-	// componentDidUpdate(prevProps) {
-	// 	console.log(prevProps.loadingBar.default);
-	// 	if (prevProps.loadingBar.default !== 0) {
-	// 		console.log("updated (not 0)", prevProps.loadingBar.default);
-	// 		this.props.navigation.goBack();
-	// 		console.log("updated (not 0)", prevProps.loadingBar.default);
-	// 	}
-	// }
-
 	handleDeckText = (title) => {
 		this.setState({
 			title
@@ -37,7 +28,7 @@ class AddDeck extends Component {
 
 	// add deck to store and api
 	addDeck = () => {
-		const { navigation, loadingBar } = this.props;
+		const { navigation } = this.props;
 		const { title } = this.state;
 
 		this.props.handleAddDeckTitle(title);
@@ -47,26 +38,17 @@ class AddDeck extends Component {
 	};
 
 	render() {
-		const { title } = this.state;
-		const { loadingBar } = this.props;
-
 		return (
-			<Fragment>
-				{/* {loadingBar.default === 1 ? (
-					<ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />
-				) : ( */}
-				<KeyboardAvoidingView style={styles.container}>
-					<Text>Add a New Deck</Text>
-					<TextInput
-						style={styles.input}
-						placeholder="Deck Title"
-						value={this.state.title}
-						onChangeText={this.handleDeckText}
-					/>
-					<TouchButton onPress={this.addDeck}>Create Deck</TouchButton>
-				</KeyboardAvoidingView>
-				{/* )} */}
-			</Fragment>
+			<KeyboardAvoidingView style={styles.container}>
+				<Text>Add a New Deck</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Deck Title"
+					value={this.state.title}
+					onChangeText={this.handleDeckText}
+				/>
+				<TouchButton onPress={this.addDeck}>Create Deck</TouchButton>
+			</KeyboardAvoidingView>
 		);
 	}
 }

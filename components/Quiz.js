@@ -7,6 +7,7 @@ import { gray, green, red, textGray, darkGray, white } from "../utils/colors";
 import { connect } from "react-redux";
 import ViewPager from "@react-native-community/viewpager";
 
+// constants for possible answers
 const answer = {
 	CORRECT: "correct",
 	INCORRECT: "incorrect"
@@ -72,12 +73,9 @@ export class Quiz extends Component {
 	 */
 	handleAnswer = (response, page) => {
 		if (response === answer.CORRECT) {
-			console.log("correct");
 			this.setState((prevState) => ({ correct: prevState.correct + 1 }));
 		}
 		else {
-			console.log("incorrect");
-
 			this.setState((prevState) => ({ incorrect: prevState.incorrect + 1 }));
 		}
 

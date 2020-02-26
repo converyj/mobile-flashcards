@@ -31,15 +31,6 @@ class DeckDetails extends Component {
 		};
 	};
 
-	// componentDidUpdate(prevProps) {
-	// 	console.log(prevProps.loadingBar.default);
-	// 	if (prevProps.loadingBar.default !== 0) {
-	// 		// console.log("updated (not 0)", prevProps.loadingBar.default);
-	// 		this.props.navigation.goBack();
-	// 		// console.log("updated (not 0)", prevProps.loadingBar.default);
-	// 	}
-	// }
-
 	// after deleting deck, don't rerender component
 	shouldComponentUpdate(nextProps) {
 		return nextProps.deck !== undefined;

@@ -36,7 +36,6 @@ export function addCardToDeck(title, card) {
 }
 
 export function removeDeck(title) {
-	console.log(title);
 	return {
 		type: REMOVE_DECK,
 		title

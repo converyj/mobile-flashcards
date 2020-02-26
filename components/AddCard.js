@@ -21,12 +21,6 @@ class AddCard extends Component {
 		answer: ""
 	};
 
-	// componentDidUpdate(prevProps) {
-	// 	if (prevProps.loadingBar.default !== 0) {
-	// 		this.props.navigation.goBack();
-	// 	}
-	// }
-
 	handleQuestionText = (question) => {
 		this.setState({
 			question
@@ -39,24 +33,20 @@ class AddCard extends Component {
 		});
 	};
 
+	// add question to deck
 	addCard = () => {
-		const { title, navigation } = this.props;
+		const { title } = this.props;
+
 		this.props.handleAddCardToDeck(title, this.state);
 		this.setState({ question: "", answer: "" });
 		this.props.navigation.goBack();
-
-		{
-			// this.props.loadingBar.default !== 1 && navigation.goBack();
-		}
 	};
+
 	render() {
-		const { title, loadingBar } = this.props;
+		const { title } = this.props;
 
 		return (
 			<Fragment>
-				{/* {loadingBar.default === 1 ? (
-					<ActivityIndicator style={{ flex: 1, justifyContent: "center" }} />
-				) : ( */}
 				<KeyboardAvoidingView style={styles.container}>
 					<Text>Add a Question to the {title} deck</Text>
 					<TextInput
@@ -98,12 +88,11 @@ const styles = StyleSheet.create({
 	}
 });
 
-// decks, loadingBar is not being used? - which is better to get title from navigation twice or put it in props?
-function mapStateToProps({ loadingBar }, { navigation }) {
+// decks is not being used? - which is better to get title from navigation twice or put it in props?
+function mapStateToProps(decks, { navigation }) {
 	const { title } = navigation.state.params;
 	return {
-		title,
-		loadingBar
+		title
 	};
 }
 export default connect(mapStateToProps, { handleAddCardToDeck })(AddCard);

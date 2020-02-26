@@ -25,24 +25,8 @@ class DeckList extends Component {
 	};
 
 	componentDidMount() {
-		// console.log("decklist");
 		this.props.handleInitialData().then(() => this.setState({ ready: true }));
 	}
-
-	// // deckList was updated and is still loading from actions, display loading indicator
-	// componentDidUpdate(prevProps) {
-	// 	console.log("decklist UPDATE");
-	// 	if (prevProps.loadingBar.default !== 0) { // previous
-	// 		console.log("loadng");
-	// 		return <ActivityIndicator />;
-	// 	}
-	// }
-	// this.props.dispatch(handleInitialData());
-	// AsyncStorage.removeItem(DECKS_STORAGE_KEY);
-
-	// shouldComponentUpdate(nextProps) {
-	// 	return nextProps.deck
-	// }
 
 	render() {
 		console.log("Decklist ", this.state.ready);

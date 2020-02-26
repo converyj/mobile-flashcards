@@ -23,7 +23,6 @@ export function setLocalNotification() {
 		// if no notifications are set, ask for permission
 		if (data === null) {
 			Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
-				console.log(status);
 				if (status === "granted") {
 					Notifications.cancelAllScheduledNotificationsAsync;
 

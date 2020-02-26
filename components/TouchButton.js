@@ -2,7 +2,10 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { lightPurple, white } from "../utils/colors";
 
-const TouchButton = ({ children, btnStyle = {}, txtStyle = {}, onPress, disabled = false }) => {
+/**
+ * Component to display the standard button used in other components 
+ */
+const TouchButton = ({ children, btnStyle = {}, txtStyle = {}, onPress }) => {
 	return (
 		<View style={styles.btnContainer}>
 			<TouchableOpacity
@@ -10,8 +13,7 @@ const TouchButton = ({ children, btnStyle = {}, txtStyle = {}, onPress, disabled
 					styles.btn,
 					btnStyle
 				]}
-				onPress={onPress}
-				disabled={disabled}>
+				onPress={onPress}>
 				<Text
 					style={[
 						styles.btnText,

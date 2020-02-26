@@ -70,9 +70,14 @@ class QuizResult extends Component {
 }
 
 const styles = StyleSheet.create({
-	container: {
+	pageStyle: {
 		flex: 1,
-		justifyContent: "space-between"
+		paddingTop: 16,
+		paddingLeft: 16,
+		paddingRight: 16,
+		paddingBottom: 16,
+		backgroundColor: white,
+		justifyContent: "space-around"
 	},
 	center: {
 		flex: 1,
@@ -91,15 +96,6 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginTop: 30,
 		color: purple
-	},
-	pageStyle: {
-		flex: 1,
-		paddingTop: 16,
-		paddingLeft: 16,
-		paddingRight: 16,
-		paddingBottom: 16,
-		backgroundColor: white,
-		justifyContent: "space-around"
 	}
 });
 

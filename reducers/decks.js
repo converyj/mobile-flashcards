@@ -31,7 +31,6 @@ function decks(state = {}, action) {
 				}
 			};
 		case REMOVE_DECK:
-			console.log(action.title);
 			return Object.assign(
 				{},
 				...Object.entries(state)
