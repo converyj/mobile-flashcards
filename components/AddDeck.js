@@ -34,7 +34,8 @@ class AddDeck extends Component {
 		this.props.handleAddDeckTitle(title);
 
 		this.setState({ title: "" });
-		navigation.goBack();
+		navigation.navigate("DeckDetails", { title });
+
 	};
 
 	render() {
