@@ -4,17 +4,6 @@ import { getDecks, saveCardToDeck, saveDeckTitle, removeDeckAS, getDeck } from "
 import { recieveDecks, addCardToDeck, addDeck, removeDeck } from "./../actions";
 import { showLoading, hideLoading } from "react-redux-loading";
 
-export function handleInitialData() {
-	return (dispatch) => {
-		dispatch(showLoading());
-		return getDecks()
-			.then((decks) => {
-				dispatch(recieveDecks(decks));
-			})
-			.then(() => dispatch(hideLoading()));
-	};
-}
-
 export function handleAddCardToDeck(title, card) {
 	return (dispatch) => {
 		dispatch(showLoading());

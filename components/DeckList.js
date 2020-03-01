@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { View, Text, StyleSheet, FlatList, AsyncStorage, ActivityIndicator } from "react-native";
-import { handleInitialData } from "./../utils/helpers";
+import { handleInitialData } from "./../actions";
 import Deck from "./Deck";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { AppLoading } from "expo";
 
 /**
