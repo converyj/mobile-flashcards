@@ -3,7 +3,7 @@ This React Native app allows users to create decks and questions to quiz themelv
 
 Uses HTML, CSS, React/Redux, AsyncStorage
 
-Live Demo: https://expo.io/@converyj/mobile-flashcards
+**Live Demo**: https://expo.io/@converyj/mobile-flashcards
 
 # Installation
 Clone the repository, change directories, and use `npm install` or `yarn install` to install the dependencies.
