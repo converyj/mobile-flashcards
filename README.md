@@ -1,6 +1,8 @@
 # Mobile Flashcards
 This React Native app allows users to create decks and questions to quiz themelves
 
+Uses HTML, CSS, React/Redux, AsyncStorage
+
 # Installation
 Clone the repository, change directories, and use `npm install` or `yarn install` to install the dependencies.
 
@@ -9,9 +11,10 @@ $ git clone https://github.com/converyj/mobile-flashcards.git
 $ cd mobile-flashcards
 $ npm install
 ```
+Live Demo: https://expo.io/@converyj/mobile-flashcards
 
 # Usage
-The project can be run with `npm start` or `yarn start`
+The project can be run with `npm start` or `expo start`
 
 This will open Expo Developer Tools in the browser. You can then do one of the following.
 
@@ -28,5 +31,5 @@ This will open Expo Developer Tools in the browser. You can then do one of the f
 
 This project has been tested on the following platforms:
 
-- iOS 11+
-- Android 9+
+- iOS 13+
+- Android 10
