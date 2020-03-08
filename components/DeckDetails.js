@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import TouchButton from "./TouchButton";
 import { gray, darkGray, red } from "../utils/colors";
 import { PropTypes } from "prop-types";
-import { handleRemoveDeck } from "../utils/helpers";
+import { handleRemoveDeck } from "../actions";
 
 /**
  * Deck Details: 

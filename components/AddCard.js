@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Text, KeyboardAvoidingView, TextInput, StyleSheet, ActivityIndicator } from "react-native";
+import { Text, KeyboardAvoidingView, TextInput, StyleSheet } from "react-native";
 import TouchButton from "./TouchButton";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
-import { handleAddCardToDeck } from "../utils/helpers";
+import { handleAddCardToDeck } from "../actions";
 
 /**
  * Form to add question and answer to deck 

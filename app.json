@@ -1,6 +1,7 @@
 {
 	"expo": {
-		"name": "mobile-flashcards",
+		"name": "Mobile Flashcards",
+		"description": "This app allows users to create flashcards to quiz themselves.",
 		"slug": "mobile-flashcards",
 		"privacy": "public",
 		"sdkVersion": "36.0.0",

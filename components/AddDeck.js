@@ -3,7 +3,7 @@ import { Text, KeyboardAvoidingView, TextInput, StyleSheet } from "react-native"
 import TouchButton from "./TouchButton";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
-import { handleAddDeckTitle } from "../utils/helpers";
+import { handleAddDeckTitle } from "../actions";
 
 /**
  * Form to add new deck  
